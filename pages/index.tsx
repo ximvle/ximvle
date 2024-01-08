@@ -1,108 +1,71 @@
-import { ConnectWallet } from "@thirdweb-dev/react";
+import { ConnectWallet, useAddress, useContract, useNFTs, useOwnedNFTs, useTokenBalance } from "@thirdweb-dev/react";
 import styles from "../styles/Home.module.css";
-import Image from "next/image";
 import { NextPage } from "next";
+import { NFT_CONTRACT_ADDRESS, TOKEN_CONTRACT_ADDRESS } from "../constants/addresses";
+import MyNavbar from "../components/Navbar";
+import TopHolder from "../components/TopHolder";
+import NFTGrid from "../components/NFTGrid";
+
 
 const Home: NextPage = () => {
+  const address = useAddress();
+
+  const {
+    contract: nftContract
+  } = useContract(NFT_CONTRACT_ADDRESS);
+  const {
+    contract: tokenContract
+  } = useContract(TOKEN_CONTRACT_ADDRESS);
+
+  const {
+    data: ownedNFTs,
+    isLoading: isNFTLoading,
+  } = useOwnedNFTs(nftContract, address);
+  const {
+    data: tokenBalance,
+    isLoading: isTokenLoading,
+  } = useTokenBalance(tokenContract, address);
+
+
+  const { contract } = useContract(NFT_CONTRACT_ADDRESS);
+  const { data, isLoading } = useNFTs(contract);
+
+
+
+
+  // the main 
+  const products = ['', '', '', '', '', '', '', ''];
+  // const listNFTs = products.map(product => <TheNFTs />)
+  const listTopHolder = products.map(product => <TopHolder />)
+
   return (
-    <main className={styles.main}>
-      <div className={styles.container}>
-        <div className={styles.header}>
-          <h1 className={styles.title}>
-            Welcome to{" "}
-            <span className={styles.gradientText0}>
-              <a
-                href="https://thirdweb.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                thirdweb.
-              </a>
-            </span>
-          </h1>
+    <div className="h-screen">
+      {/* Header  */}
+      <MyNavbar />
+      <main className="flex items-center justify-center h-80vh">
 
-          <p className={styles.description}>
-            Get started by configuring your desired network in{" "}
-            <code className={styles.code}>src/index.js</code>, then modify the{" "}
-            <code className={styles.code}>src/App.js</code> file!
-          </p>
-
-          <div className={styles.connect}>
-            <ConnectWallet
-              dropdownPosition={{
-                side: "bottom",
-                align: "center",
-              }}
-            />
-          </div>
+        <div className="flex flex-col text-landing font-semibold ">
+          <span>trade for safety</span>
         </div>
 
-        <div className={styles.grid}>
-          <a
-            href="https://portal.thirdweb.com/"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              src="/images/portal-preview.png"
-              alt="Placeholder preview of starter"
-              width={300}
-              height={200}
-            />
-            <div className={styles.cardText}>
-              <h2 className={styles.gradientText1}>Portal ➜</h2>
-              <p>
-                Guides, references, and resources that will help you build with
-                thirdweb.
-              </p>
-            </div>
-          </a>
-
-          <a
-            href="https://thirdweb.com/dashboard"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              src="/images/dashboard-preview.png"
-              alt="Placeholder preview of starter"
-              width={300}
-              height={200}
-            />
-            <div className={styles.cardText}>
-              <h2 className={styles.gradientText2}>Dashboard ➜</h2>
-              <p>
-                Deploy, configure, and manage your smart contracts from the
-                dashboard.
-              </p>
-            </div>
-          </a>
-
-          <a
-            href="https://thirdweb.com/templates"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              src="/images/templates-preview.png"
-              alt="Placeholder preview of templates"
-              width={300}
-              height={200}
-            />
-            <div className={styles.cardText}>
-              <h2 className={styles.gradientText3}>Templates ➜</h2>
-              <p>
-                Discover and clone template projects showcasing thirdweb
-                features.
-              </p>
-            </div>
-          </a>
+      </main>
+      <div className="absolute bottom-0 row p-12 col-md-12">
+        <div className="col-md-4  ">
+          <p className="text-4xl font-bold">50,000,000</p>
+          <p>coins</p>
+          <div className="mb-10"></div>
+          <p className="text-4xl font-bold">135,244</p>
+          <p>users</p>
+        </div>
+        <div className="col-md-4 flex items-end justify-center ">
+          <p className="max-w-sm">Enjoy true ownership of in-game assets and a community-driven ecosystem that puts the power back in the hands of players.</p>
+        </div>
+        <div className="col-md-4 justify-end flex items-end">
+          <img src="./images/xmvl-coin.png" className="rounded-lg myimg-rotation" alt="" />
         </div>
       </div>
-    </main>
+
+    </div>
   );
 };
 
