@@ -2,7 +2,6 @@
 const nextConfig = {
   reactStrictMode: true,
   basePath: "",
-  output: "export",
   eslint: {
     ignoreDuringBuilds: true,
   },
