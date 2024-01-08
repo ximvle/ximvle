@@ -1,42 +1,8 @@
-import { ConnectWallet, useAddress, useContract, useNFTs, useOwnedNFTs, useTokenBalance } from "@thirdweb-dev/react";
-import styles from "../styles/Home.module.css";
 import { NextPage } from "next";
-import { NFT_CONTRACT_ADDRESS, TOKEN_CONTRACT_ADDRESS } from "../constants/addresses";
 import MyNavbar from "../components/Navbar";
-import TopHolder from "../components/TopHolder";
-import NFTGrid from "../components/NFTGrid";
 
 
 const Home: NextPage = () => {
-  const address = useAddress();
-
-  const {
-    contract: nftContract
-  } = useContract(NFT_CONTRACT_ADDRESS);
-  const {
-    contract: tokenContract
-  } = useContract(TOKEN_CONTRACT_ADDRESS);
-
-  const {
-    data: ownedNFTs,
-    isLoading: isNFTLoading,
-  } = useOwnedNFTs(nftContract, address);
-  const {
-    data: tokenBalance,
-    isLoading: isTokenLoading,
-  } = useTokenBalance(tokenContract, address);
-
-
-  const { contract } = useContract(NFT_CONTRACT_ADDRESS);
-  const { data, isLoading } = useNFTs(contract);
-
-
-
-
-  // the main 
-  const products = ['', '', '', '', '', '', '', ''];
-  // const listNFTs = products.map(product => <TheNFTs />)
-  const listTopHolder = products.map(product => <TopHolder />)
 
   return (
     <div className="h-screen">
